@@ -22,22 +22,22 @@ spec:
             mountPath: /usr/local/tomcat/webapps/ROOT/WEB-INF/git
             subPath: simplicite-git
           ports:
-            - containerPort: 8080
+          - containerPort: 8080
           env:
-            - name: DB_HOST
-              value: postgres
-            - name: DB_VENDOR
-              value: postgresql
-            - name: DB_NAME
-              value: simplicite
-            - name: DB_USER
-              value: simplicite
-            - name: DB_PASSWORD
-              value: simplicite
-            - name: DB_SETUP
-              value: "true"
-            - name: DB_WAIT
-              value: "100"
+          - name: DB_HOST
+            value: postgres
+          - name: DB_VENDOR
+            value: postgresql
+          - name: DB_NAME
+            value: simplicite
+          - name: DB_USER
+            value: simplicite
+          - name: DB_PASSWORD
+            value: simplicite
+          - name: DB_SETUP
+            value: "true"
+          - name: DB_WAIT
+            value: "100"
       restartPolicy: Always
       volumes:
       - name: simplicite-git-volume-mount
