@@ -7,7 +7,7 @@ Simplicite + PostgreSQL on Google Kubernetes Engine (GKE)
 Prerequisites
 -------------
 
-Install and configure the [Google cloud SDK](https://cloud.google.com/sdk).
+Install and configure the [Google cloud SDK](https://cloud.google.com/sdk/docs/install).
 
 And install the `kubectl` Kubernetes CLI:
 
