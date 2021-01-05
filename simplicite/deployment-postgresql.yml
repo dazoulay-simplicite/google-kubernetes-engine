@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simplicite
+  labels:
+    app: simplicite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simplicite
+  template:
+    metadata:
+      labels:
+        app: simplicite
+    spec:
+      containers:
+        - name: simplicite
+          image: <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
+          volumeMounts:
+          - name: simplicite-git-volume-mount
+            mountPath: /usr/local/tomcat/webapps/ROOT/WEB-INF/git
+            subPath: simplicite-git
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_VENDOR
+              value: postgresql
+            - name: DB_NAME
+              value: simplicite
+            - name: DB_USER
+              value: simplicite
+            - name: DB_PASSWORD
+              value: simplicite
+            - name: DB_SETUP
+              value: "true"
+            - name: DB_WAIT
+              value: "100"
+      restartPolicy: Always
+      volumes:
+      - name: simplicite-git-volume-mount
+        persistentVolumeClaim:
+          claimName: simplicite-git-volume-claim

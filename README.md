@@ -55,12 +55,11 @@ Create a persistent disk for the database data with:
 
 	gcloud compute disks create postgresql-disk --size 50GB --zone <zone e.g. us-central1-c>
 
-
 ### Persistent Volume
 
 Create the volume with:
 
-	kubectl apply -f ./postgresql/postgres-volume.yml
+	kubectl apply -f ./postgresql/volume.yml
 
 Check the persistent volume status with `kubectl get pv`.
 
@@ -68,7 +67,7 @@ Check the persistent volume status with `kubectl get pv`.
 
 Create the volume claim with:
 
-	kubectl apply -f ./postgresql/postgres-volume-claim.yml
+	kubectl apply -f ./postgresql/volume-claim.yml
 
 Check the persistent volume claim status with `kubectl get pvc`.
 
@@ -76,7 +75,7 @@ Check the persistent volume claim status with `kubectl get pvc`.
 
 Create the deployment with:
 
-	kubectl apply -f ./postgresql/postgres-deployment.yml
+	kubectl apply -f ./postgresql/deployment.yml
 
 Check the deployment status with `kubectl get pods`.
 
@@ -84,171 +83,47 @@ Check the deployment status with `kubectl get pods`.
 
 Create the service with:
 
-	kubectl apply -f ./postgresql/postgres-service.yml
+	kubectl apply -f ./postgresql/service.yml
 
 Check the deployment status with `kubectl get services`.
 
-Simplicite
+Simplicité
 ----------
 
-### Persistent disk
+### Persistent disk for Git repositories
 
 Create a persistent disk for the Git repositories of your Simplicité instance with:
 
-```bash
-gcloud compute disks create <disk name, e.g. simplicite-git-disk> \
- --size 10GB \
- --zone <zone e.g. us-central1-c>
-```
+	gcloud compute disks create simplicite-git-disk --size 10GB --zone <zone e.g. us-central1-c>
 
-### Persistent volume
+### Persistent volume for Git repositories
 
-Create a `simplicite-git-volume.yml`file with the following content:
+Create the volume with:
 
-```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: simplicite-git-volume
-  labels:
-    name: simplicite-git-volume
-spec:
-  capacity:
-    storage: 10Gi
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  gcePersistentDisk:
-    pdName: simplicite-git-disk
-    fsType: ext4
-```
-
-And create it with:
-
-```bash
-kubectl apply -f simplicite-git-volume.yml
-```
+	kubectl apply -f ./simplicite/git-volume.yml
 
 Check the persistent volume status with `kubectl get pv`.
 
 ### Persistent volume claim
 
-Create a `simplicite-git-volume-claim.yml`file with the following content:
+Create the volume claim with:
 
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: simplicite-git-volume-claim
-  labels:
-    type: local
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  volumeName: simplicite-git-volume
-```
-
-And create it with:
-
-```bash
-kubectl apply -f simplicite-git-volume-claim.yml
-```
+	kubectl apply -f ./simplicite/volume-claim.yml
 
 Check the persistent volume claim status with `kubectl get pvc`.
 
-### Push image to the registry
-
 ### Deployment
 
-Create a `simplicite-deployment.yml`file with the following content:
+Create the deployment for **PostgreSQL** with:
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: simplicite
-  labels:
-    app: simplicite
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: simplicite
-  template:
-    metadata:
-      labels:
-        app: simplicite
-    spec:
-      containers:
-        - name: simplicite
-          image: <server, e.g. gcr.io>/<project ID>/simplicite/server:<tag, e.g. 5-beta>
-          volumeMounts:
-          - name: simplicite-git-volume-mount
-            mountPath: /usr/local/tomcat/webapps/ROOT/WEB-INF/git
-            subPath: simplicite-git
-          ports:
-            - containerPort: 8080
-          env:
-            - name: DB_HOST
-              value: postgres
-            - name: DB_VENDOR
-              value: postgresql
-            - name: DB_NAME
-              value: simplicite
-            - name: DB_USER
-              valuesimplicite
-            - name: DB_PASSWORD
-              value: simplicite
-            - name: DB_SETUP
-              value: "true"
-            - name: DB_WAIT
-              value: "100"
-      restartPolicy: Always
-      volumes:
-      - name: simplicite-git-volume-mount
-        persistentVolumeClaim:
-          claimName: simplicite-git-volume-claim
-```
-
-And create it with:
-
-```bash
-kubectl apply -f simplicite-deployment.yml
-```
+	kubectl apply -f ./simplicite/deployment-postgresql.yml
 
 Check the deployment status with `kubectl get pods`.
 
 ### Service
 
-Create a `simplicite-service.yml`file with the following content:
+Create the service with:
 
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: simplicite
-  name: simplicite
-spec:
-  type: LoadBalancer
-  sessionAffinity: ClientIP
-  ports:
-    - port: 80
-      targetPort: 8080
-  selector:
-    app: simplicite
-status:
-  loadBalancer: {}
-```
-
-And create it with:
-
-```bash
-kubectl apply -f simplicite-service.yml
-```
+	kubectl apply -f ./simplicite/service.yml
 
 Check the deployment status with `kubectl get services`.
-
