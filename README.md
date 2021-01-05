@@ -11,54 +11,40 @@ Install and configure the [Google cloud SDK](https://cloud.google.com/sdk/docs/i
 
 And install the `kubectl` Kubernetes CLI:
 
-```bash
-gcloud components install kubectl
-```
+	gcloud components install kubectl
 
 Project
 -------
 
 Create a new project (or use an existing one):
 
-```bash
-gcloud config set project <project ID>
-```
+	gcloud config set project <project ID>
 
 Cluster
 -------
 
 Create a node cluster with at least 2 nodes with:
 
-```bash
-gcloud container clusters create <cluster name, e.g. test-cluster> --num-nodes=<number of nodes, e.g. 2> --machine-type <type, e.g. g1-small> --zone <zone, e.g. us-central1-c>
-```
+	gcloud container clusters create <cluster name, e.g. test-cluster> --num-nodes=<number of nodes, e.g. 2> --machine-type <type, e.g. g1-small> --zone <zone, e.g. us-central1-c>
 
 Check the nodes status with `kubectl get nodes`.
 
 And connect to the cluster with:
 
-```bash
-gcloud container clusters get-credentials <cluster name, e.g. test-cluster> --zone <zone e.g us-central1-c>
-```
+	gcloud container clusters get-credentials <cluster name, e.g. test-cluster> --zone <zone e.g us-central1-c>
 
 Docker registry
 ---------------
 
-```bash
-gcloud auth configure-docker
-```
+	gcloud auth configure-docker
 
 Tag the chosen Simplicité private image (previously pulled from DockerHub):
 
-```bash
-docker tag simplicite/platform:<tag, e.g. 5-beta> <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
-```
+	docker tag simplicite/platform:<tag, e.g. 5-beta> <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
 
 And push it to the regitry:
 
-```bash
-docker push <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
-```
+	docker push <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
 
 PostgreSQL
 ----------
@@ -67,142 +53,38 @@ PostgreSQL
 
 Create a persistent disk for the database data with:
 
-```bash
-gcloud compute disks create postgresql-disk --size 50GB --zone <zone e.g. us-central1-c>
-```
+	gcloud compute disks create postgresql-disk --size 50GB --zone <zone e.g. us-central1-c>
+
 
 ### Persistent Volume
 
-Create a `postgres-volume.yml`file with the following content:
+Create the volume with:
 
-```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: postgres-volume
-  labels:
-    name: postgres-volume
-spec:
-  capacity:
-    storage: 50Gi
-  storageClassName: standard
-  accessModes:
-  - ReadWriteOnce
-  gcePersistentDisk:
-    pdName: postgresql-disk
-    fsType: ext4
-```
-
-And create it with:
-
-```bash
-kubectl apply -f postgresql-volume.yml
-```
+	kubectl apply -f ./postgresql/postgres-volume.yml
 
 Check the persistent volume status with `kubectl get pv`.
 
 ### Persistent volume claim
 
-Create a `postgres-volume-claim.yml`file with the following content:
+Create the volume claim with:
 
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-volume-claim
-  labels:
-    type: local
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Gi
-  volumeName: postgres-volume
-```
-
-And create it with:
-
-```bash
-kubectl apply -f postgresql-volume-claim.yml
-```
+	kubectl apply -f ./postgresql/postgres-volume-claim.yml
 
 Check the persistent volume claim status with `kubectl get pvc`.
 
 ### Deployment
 
-Create a `postgres-deployment.yml`file with the following content:
+Create the deployment with:
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: postgres
-  labels:
-    name: database
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      service: postgres
-  template:
-    metadata:
-      labels:
-        service: postgres
-    spec:
-      containers:
-      - name: postgres
-        image: postgres:12
-        volumeMounts:
-        - name: postgres-volume-mount
-          mountPath: /var/lib/postgresql/data
-          subPath: postgres
-        env:
-        - name: POSTGRES_DB
-          value: simplicite
-        - name: POSTGRES_USER
-          value: simplicite
-        - name: POSTGRES_PASSWORD
-          value: simplicite
-      restartPolicy: Always
-      volumes:
-      - name: postgres-volume-mount
-        persistentVolumeClaim:
-          claimName: postgres-volume-claim
-```
-
-And create it with:
-
-```bash
-kubectl apply -f postgresql-deployment.yml
-```
+	kubectl apply -f ./postgresql/postgres-deployment.yml
 
 Check the deployment status with `kubectl get pods`.
 
 ### Service
 
-Create a `postgres-service.yml`file with the following content:
+Create the service with:
 
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres
-  labels:
-    service: postgres
-spec:
-  selector:
-    service: postgres
-  type: ClusterIP
-  ports:
-  - port: 5432
-```
-
-And create it with:
-
-```bash
-kubectl apply -f postgresql-service.yml
-```
+	kubectl apply -f ./postgresql/postgres-service.yml
 
 Check the deployment status with `kubectl get services`.
 
