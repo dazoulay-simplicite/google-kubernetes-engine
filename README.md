@@ -60,8 +60,6 @@ And push it to the regitry:
 docker push <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
 ```
 
-**TDOD**
-
 PostgreSQL
 ----------
 
