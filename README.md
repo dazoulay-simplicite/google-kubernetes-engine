@@ -46,8 +46,8 @@ And push it to the regitry:
 
 	docker push <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
 
-PostgreSQL
-----------
+PostgreSQL database
+-------------------
 
 ### Persistent disk
 
@@ -87,16 +87,21 @@ Create the service with:
 
 Check the deployment status with `kubectl get services`.
 
-Simplicité
-----------
+MySQL database
+--------------
 
-### Persistent disk for Git repositories
+**TODO**
+
+Simplicité platform
+-------------------
+
+### Persistent disk for the Git repositories
 
 Create a persistent disk for the Git repositories of your Simplicité instance with:
 
 	gcloud compute disks create simplicite-git-disk --size 10GB --zone <zone e.g. us-central1-c>
 
-### Persistent volume for Git repositories
+### Persistent volume for the Git repositories
 
 Create the volume with:
 
@@ -104,19 +109,29 @@ Create the volume with:
 
 Check the persistent volume status with `kubectl get pv`.
 
-### Persistent volume claim
+### Persistent volume claim for the Git repositories
 
 Create the volume claim with:
 
-	kubectl apply -f ./simplicite/volume-claim.yml
+	kubectl apply -f ./simplicite/git-volume-claim.yml
 
 Check the persistent volume claim status with `kubectl get pvc`.
 
 ### Deployment
 
-Create the deployment for **PostgreSQL** with:
+#### With PostgreSQL database
+
+Create the deployment with:
 
 	kubectl apply -f ./simplicite/deployment-postgresql.yml
+
+Check the deployment status with `kubectl get pods`.
+
+#### With MySQL database
+
+Create the deployment with:
+
+	kubectl apply -f ./simplicite/deployment-mysql.yml
 
 Check the deployment status with `kubectl get pods`.
 
