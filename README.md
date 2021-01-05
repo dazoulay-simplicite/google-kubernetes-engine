@@ -1,4 +1,4 @@
-![Simplicit&eacute; Software](../logos/logo250.png)
+![Simplicit&eacute; Software](https://www.simplicite.io/resources/logos/logo250.png)
 * * *
 
 Simplicite + PostgreSQL on Google Kubernetes Engine (GKE)
