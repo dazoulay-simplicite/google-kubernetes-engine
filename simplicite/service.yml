@@ -1,16 +1,17 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
+  name: simplicite
   labels:
     app: simplicite
-  name: simplicite
 spec:
+  selector:
+    app: simplicite
   type: LoadBalancer
   sessionAffinity: ClientIP
   ports:
   - port: 80
     targetPort: 8080
-  selector:
-    app: simplicite
 status:
   loadBalancer: {}
