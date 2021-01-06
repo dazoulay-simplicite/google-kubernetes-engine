@@ -10,7 +10,9 @@ spec:
     app: simplicite
   type: NodePort
   ports:
-  - name: http
+  - name: simplicite-http
     port: 8080
-  - name: https
+    targetPort: 8080
+  - name: simplicite-https
     port: 8443
+    targetPort: 8443
