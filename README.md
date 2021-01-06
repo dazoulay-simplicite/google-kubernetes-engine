@@ -13,30 +13,19 @@ And install the `kubectl` Kubernetes CLI:
 
 	gcloud components install kubectl
 
-Project
--------
-
-Create a new project (or use an existing one):
+Create a new **project** (or use an existing one):
 
 	gcloud config set project <project ID>
 
-Cluster
--------
-
-Create a node cluster with at least 2 nodes with:
+Create a node **cluster** with at least 2 nodes with:
 
 	gcloud container clusters create <cluster name, e.g. test-cluster> --num-nodes=<number of nodes, e.g. 2> --machine-type <type, e.g. g1-small> --zone <zone, e.g. us-central1-c>
 
-Check the nodes status with `kubectl get nodes`.
-
-And connect to the cluster with:
+Check the nodes status with `kubectl get nodes` and connect to the cluster with:
 
 	gcloud container clusters get-credentials <cluster name, e.g. test-cluster> --zone <zone e.g us-central1-c>
 
-Docker images registry
-----------------------
-
-Configure the registry:
+Configure the Docker images registry:
 
 	gcloud auth configure-docker
 
@@ -51,39 +40,29 @@ And push it to the regitry:
 PostgreSQL database
 -------------------
 
-### Persistent disk
-
-Create a persistent disk for the database data with:
+Create the **persistent disk** for the database data with:
 
 	gcloud compute disks create postgresql-disk --size 50GB --zone <zone e.g. us-central1-c>
 
-### Persistent Volume
-
-Create the volume with:
+Create the **persistent volume** with:
 
 	kubectl apply -f ./postgresql/volume.yml
 
 Check the persistent volume status with `kubectl get pv`.
 
-### Persistent volume claim
-
-Create the volume claim with:
+Create the **persistent volume claim** with:
 
 	kubectl apply -f ./postgresql/volume-claim.yml
 
 Check the persistent volume claim status with `kubectl get pvc`.
 
-### Deployment
-
-Create the deployment with:
+Create the **deployment** with:
 
 	kubectl apply -f ./postgresql/deployment.yml
 
 Check the deployment status with `kubectl get pods`.
 
-### Service
-
-Create the service with:
+Create the **service** with:
 
 	kubectl apply -f ./postgresql/service.yml
 
@@ -92,36 +71,54 @@ Check the deployment status with `kubectl get services`.
 MySQL database
 --------------
 
-**TODO**
+Create the **persistent disk** for the database data with:
+
+	gcloud compute disks create mysql-disk --size 50GB --zone <zone e.g. us-central1-c>
+
+Create the **persistent volume** with:
+
+	kubectl apply -f ./mysql/volume.yml
+
+Check the persistent volume status with `kubectl get pv`.
+
+Create the **persistent volume claim** with:
+
+	kubectl apply -f ./mysql/volume-claim.yml
+
+Check the persistent volume claim status with `kubectl get pvc`.
+
+Create the **deployment** with:
+
+	kubectl apply -f ./mysql/deployment.yml
+
+Check the deployment status with `kubectl get pods`.
+
+Create the **service** with:
+
+	kubectl apply -f ./mysql/service.yml
+
+Check the deployment status with `kubectl get services`.
 
 Simplicité platform
 -------------------
 
-### Persistent disk for the Git repositories
-
-Create a persistent disk for the Git repositories of your Simplicité instance with:
+Create the **persistent disk** for the Git repositories of the Simplicité instance with:
 
 	gcloud compute disks create simplicite-git-disk --size 10GB --zone <zone e.g. us-central1-c>
 
-### Persistent volume for the Git repositories
-
-Create the volume with:
+Create the **persistent volume** with:
 
 	kubectl apply -f ./simplicite/git-volume.yml
 
 Check the persistent volume status with `kubectl get pv`.
 
-### Persistent volume claim for the Git repositories
-
-Create the volume claim with:
+Create the **persistent volume claim** with:
 
 	kubectl apply -f ./simplicite/git-volume-claim.yml
 
 Check the persistent volume claim status with `kubectl get pvc`.
 
-### Deployment
-
-Create the deployment with:
+Create the **deployment** with:
 
 	IMAGE=<image tag> DB=<mysql|postgresql> envsubst < ./simplicite/deployment.yml | kubectl apply -f -
 
@@ -129,9 +126,7 @@ where the image tag matches tag of the image you have pushed to the registry (se
 
 Check the deployment status with `kubectl get pods`.
 
-### Service
-
-Create the service with:
+Create the **service** with:
 
 	kubectl apply -f ./simplicite/service.yml
 
