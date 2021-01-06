@@ -14,7 +14,6 @@ spec:
       labels:
         app: simplicite
     spec:
-      hostname: simplicite
       containers:
         - name: simplicite
           image: ${IMAGE}
