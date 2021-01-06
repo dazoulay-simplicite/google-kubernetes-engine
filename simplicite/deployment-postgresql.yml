@@ -14,6 +14,7 @@ spec:
       labels:
         app: simplicite
     spec:
+      hostname: simplicite
       containers:
         - name: simplicite
           image: <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
@@ -25,7 +26,7 @@ spec:
           - containerPort: 8080
           env:
           - name: DB_HOST
-            value: postgres
+            value: database
           - name: DB_VENDOR
             value: postgresql
           - name: DB_NAME

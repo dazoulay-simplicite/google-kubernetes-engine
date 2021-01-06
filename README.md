@@ -33,8 +33,10 @@ And connect to the cluster with:
 
 	gcloud container clusters get-credentials <cluster name, e.g. test-cluster> --zone <zone e.g us-central1-c>
 
-Docker registry
----------------
+Docker images registry
+----------------------
+
+Configure the registry:
 
 	gcloud auth configure-docker
 
@@ -119,11 +121,14 @@ Check the persistent volume claim status with `kubectl get pvc`.
 
 ### Deployment
 
+> **Note**: In the deploymet YAML files bellow you **must** set the container image
+> accordingly to the tag of the image you have pushed to the registry (see above).
+
 #### With PostgreSQL database
 
 Create the deployment with:
 
-	kubectl apply -f ./simplicite/deployment-postgresql.yml
+	IMAGE=<image tag> VENDOR=<mysql|postgresql> envsubst < ./simplicite/deployment-postgresql.yml | kubectl apply -f -
 
 Check the deployment status with `kubectl get pods`.
 
