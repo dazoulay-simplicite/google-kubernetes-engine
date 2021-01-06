@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-volume-claim
+  name: postgresql-volume-claim
   labels:
     type: local
 spec:
@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  volumeName: postgres-volume
+  volumeName: postgresql-volume

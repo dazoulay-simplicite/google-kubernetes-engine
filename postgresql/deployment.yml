@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: postgresql
   labels:
     name: database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: postgres
+      service: postgresql
   template:
     metadata:
       labels:
-        service: postgres
+        service: postgresql
     spec:
       containers:
-      - name: postgres
+      - name: postgresql
         image: postgres:12
         volumeMounts:
-        - name: postgres-volume-mount
+        - name: postgresql-volume-mount
           mountPath: /var/lib/postgresql/data
-          subPath: postgres
+          subPath: postgresql
         env:
         - name: POSTGRES_DB
           value: simplicite
@@ -30,6 +30,6 @@ spec:
           value: simplicite
       restartPolicy: Always
       volumes:
-      - name: postgres-volume-mount
+      - name: postgresql-volume-mount
         persistentVolumeClaim:
-          claimName: postgres-volume-claim
+          claimName: postgresql-volume-claim
