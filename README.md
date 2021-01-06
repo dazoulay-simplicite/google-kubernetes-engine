@@ -123,7 +123,7 @@ Check the persistent volume claim status with `kubectl get pvc`.
 
 Create the deployment with:
 
-	IMAGE=<image tag> DB=<mysql|postgresql> envsubst < ./simplicite/deployment-postgresql.yml | kubectl apply -f -
+	IMAGE=<image tag> DB=<mysql|postgresql> envsubst < ./simplicite/deployment.yml | kubectl apply -f -
 
 where the image tag matches tag of the image you have pushed to the registry (see above).
 
