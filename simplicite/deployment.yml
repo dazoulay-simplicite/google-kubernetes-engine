@@ -20,7 +20,6 @@ spec:
           volumeMounts:
           - name: simplicite-git-volume-mount
             mountPath: /usr/local/tomcat/webapps/ROOT/WEB-INF/git
-            subPath: simplicite-git
           ports:
           - containerPort: 8080
           env:

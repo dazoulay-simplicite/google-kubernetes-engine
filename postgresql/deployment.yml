@@ -20,7 +20,6 @@ spec:
         volumeMounts:
         - name: postgresql-volume-mount
           mountPath: /var/lib/postgresql/data
-          subPath: postgresql
         env:
         - name: POSTGRES_DB
           value: simplicite
