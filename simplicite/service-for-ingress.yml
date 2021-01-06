@@ -8,7 +8,9 @@ metadata:
 spec:
   selector:
     app: simplicite
-  type: ClusterIP
+  type: NodePort
   ports:
-  - port: 8080
-  - port: 8443
+  - name: http
+    port: 8080
+  - name: https
+    port: 8443
