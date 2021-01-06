@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: database
+  name: postgresql
   labels:
     service: postgresql
 spec:
