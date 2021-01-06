@@ -17,7 +17,7 @@ spec:
       hostname: simplicite
       containers:
         - name: simplicite
-          image: <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
+          image: ${IMAGE}
           volumeMounts:
           - name: simplicite-git-volume-mount
             mountPath: /usr/local/tomcat/webapps/ROOT/WEB-INF/git
@@ -28,7 +28,7 @@ spec:
           - name: DB_HOST
             value: database
           - name: DB_VENDOR
-            value: postgresql
+            value: ${DB}
           - name: DB_NAME
             value: simplicite
           - name: DB_USER

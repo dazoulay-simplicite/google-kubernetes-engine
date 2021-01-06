@@ -121,22 +121,11 @@ Check the persistent volume claim status with `kubectl get pvc`.
 
 ### Deployment
 
-> **Note**: In the deploymet YAML files bellow you **must** set the container image
-> accordingly to the tag of the image you have pushed to the registry (see above).
-
-#### With PostgreSQL database
-
 Create the deployment with:
 
-	IMAGE=<image tag> VENDOR=<mysql|postgresql> envsubst < ./simplicite/deployment-postgresql.yml | kubectl apply -f -
+	IMAGE=<image tag> DB=<mysql|postgresql> envsubst < ./simplicite/deployment-postgresql.yml | kubectl apply -f -
 
-Check the deployment status with `kubectl get pods`.
-
-#### With MySQL database
-
-Create the deployment with:
-
-	kubectl apply -f ./simplicite/deployment-mysql.yml
+where the image tag matches tag of the image you have pushed to the registry (see above).
 
 Check the deployment status with `kubectl get pods`.
 
