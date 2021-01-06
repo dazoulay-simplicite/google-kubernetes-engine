@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: postgresql
   labels:
-    name: database
+    name: postgresql
 spec:
   replicas: 1
   selector:
@@ -20,6 +20,7 @@ spec:
         volumeMounts:
         - name: postgresql-volume-mount
           mountPath: /var/lib/postgresql/data
+          subPath: data
         env:
         - name: POSTGRES_DB
           value: simplicite
