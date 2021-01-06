@@ -1,11 +1,11 @@
 ---
-apiVersion: "extensions/v1beta1"
-kind: "Ingress"
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: "simplicite-ingress"
+  name: simplicite-ingress
 spec:
   backend:
-    serviceName: "simplicite"
+    serviceName: simplicite
     # for HTTP
     servicePort: 8080
     # for HTTPS
