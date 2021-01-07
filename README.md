@@ -60,13 +60,13 @@ Create the **deployment** with:
 
 	kubectl apply -f ./postgresql/deployment.yml
 
-Check the deployment status with `kubectl get pods`.
+Check the deployment status with `kubectl get pod`.
 
 Create the **service** with:
 
 	kubectl apply -f ./postgresql/service.yml
 
-Check the deployment status with `kubectl get services`.
+Check the deployment status with `kubectl get svc`.
 
 MySQL database
 --------------
@@ -91,13 +91,13 @@ Create the **deployment** with:
 
 	kubectl apply -f ./mysql/deployment.yml
 
-Check the deployment status with `kubectl get pods`.
+Check the deployment status with `kubectl get pod`.
 
 Create the **service** with:
 
 	kubectl apply -f ./mysql/service.yml
 
-Check the deployment status with `kubectl get services`.
+Check the deployment status with `kubectl get svc`.
 
 Simplicité platform
 -------------------
@@ -124,10 +124,10 @@ Create the **deployment** with:
 
 where the image tag matches tag of the image you have pushed to the registry (see above).
 
-Check the deployment status with `kubectl get pods`.
+Check the deployment status with `kubectl get pod`.
 
 Create the **service** with:
 
 	kubectl apply -f ./simplicite/service.yml
 
-Check the deployment status with `kubectl get services`.
+Check the deployment status with `kubectl get svc`.
