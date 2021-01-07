@@ -15,7 +15,4 @@ spec:
       - path: /
         backend:
           serviceName: simplicite
-          # for HTTP
-          servicePort: 8080
-          # for HTTPS
-          #servicePort: 8443
+          servicePort: simplicite-http
