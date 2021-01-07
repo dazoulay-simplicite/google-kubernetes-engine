@@ -12,7 +12,5 @@ spec:
   ports:
   - name: simplicite-http
     port: 8080
-    targetPort: 8080
   - name: simplicite-https
     port: 8443
-    targetPort: 8443

@@ -2,11 +2,20 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: simplicite-ingress
+  name: simplicite-ingress-nginx
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
 spec:
-  backend:
-    serviceName: simplicite
-    # for HTTP
-    servicePort: 8080
-    # for HTTPS
-    #servicePort: 8443
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: simplicite
+          # for HTTP
+          servicePort: 8080
+          # for HTTPS
+          #servicePort: 8443
