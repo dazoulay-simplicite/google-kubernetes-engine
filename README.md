@@ -33,7 +33,7 @@ Tag the chosen Simplicité private image (previously pulled from DockerHub):
 
 	docker tag simplicite/platform:<tag, e.g. 5-beta> <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
 
-And push it to the regitry:
+And push it to the registry:
 
 	docker push <server, e.g. gcr.io>/<project ID>/simplicite/platform:<tag, e.g. 5-beta>
 
