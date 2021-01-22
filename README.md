@@ -1,1 +1,1 @@
-Moved [here](https://github.com/simplicitesoftware/docker/tree/master/examples/google-cloud-platform)
+Moved [here](https://github.com/simplicitesoftware/docker/tree/master/examples/kubernetes/google-kubernetes-engine)
